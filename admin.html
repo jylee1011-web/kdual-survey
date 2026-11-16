@@ -10,6 +10,7 @@
 <div style="flex:1;min-width:150px"><label class="f" for="iN">수강 인원(명)</label><input type="text" id="iN" inputmode="numeric"></div></div>
 <label class="f" for="iI">강사 (줄바꿈으로 구분)</label><textarea id="iI" style="min-height:60px"></textarea>
 <p><button class="btn sec" id="sv">저장</button> <span id="svm" class="mut"></span></p></div>
+<div class="card noprint"><h2>보기 선택</h2><select id="sel" style="width:100%;font:inherit;padding:10px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)" aria-label="과정 선택"></select></div>
 <div class="card"><h2>직무연수 만족도 설문 조사 결과</h2><div id="meta" class="mut" style="line-height:1.8"></div></div>
 <div class="stats" id="st"></div>
 <div class="card"><h2>문항별 결과 (5점 만점)</h2><div class="scroll"><table id="tb"></table></div>
@@ -19,9 +20,13 @@
 </div></main>
 <script src="config.js"></script><script>
 const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const COL=["#1b8a5a","#6cc49a","#e3c24a","#e8914a","#d34a4a"];let KEY="",course={},resp=[];
+const COL=["#1b8a5a","#6cc49a","#e3c24a","#e8914a","#d34a4a"];let KEY="",course={},resp=[],allResp=[];const rk=r=>(r.course||"(과정 미지정)")+"|"+(r.date||"");
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0,fmt=x=>resp.length?x.toFixed(2):"-";
-async function load(){const r=await fetch(SURVEY_API+"?action=results&key="+encodeURIComponent(KEY));const j=await r.json();if(!j.ok)throw 0;course=j.course;resp=j.responses;return j}
+async function load(){const r=await fetch(SURVEY_API+"?action=results&key="+encodeURIComponent(KEY));const j=await r.json();if(!j.ok)throw 0;course=j.course;allResp=j.responses;buildSel();return j}
+function buildSel(){const sel=$("sel"),cur=sel.value||"*",m=new Map();allResp.forEach(r=>{const k=rk(r);if(!m.has(k))m.set(k,{n:0,r})  ;m.get(k).n++});
+ sel.innerHTML=`<option value="*">전체 누적 (${m.size}개 과정, ${allResp.length}명)</option>`+[...m].map(([k,v])=>`<option value="${esc(k)}">${esc(v.r.course||"(과정 미지정)")} · ${esc(v.r.date||"")} (${v.n}명)</option>`).join("");
+ sel.value=[...sel.options].some(o=>o.value===cur)?cur:"*";resp=sel.value==="*"?allResp:allResp.filter(r=>rk(r)===sel.value)}
+$("sel").onchange=()=>{buildSel();render()};
 $("go").onclick=async()=>{KEY=$("pw").value;$("le").textContent="";try{await load();$("lg").classList.add("hide");$("adm").classList.remove("hide");sessionStorage.setItem("k",KEY);fill();render()}catch(e){$("le").textContent="키가 올바르지 않거나 서버에 연결할 수 없습니다."}};
 $("pw").onkeydown=e=>{if(e.key==="Enter")$("go").click()};
 try{const k=sessionStorage.getItem("k");if(k){$("pw").value=k;$("go").click()}}catch(e){}
@@ -30,7 +35,10 @@ function fill(){$("iT").value=course.title||"";$("iD").value=course.date||"";$("
 $("sv").onclick=async()=>{try{const r=await fetch(SURVEY_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"course",key:KEY,title:$("iT").value.trim(),date:$("iD").value.trim(),instr:$("iI").value.trim(),n:parseInt($("iN").value)||0})});
  if(!(await r.json()).ok)throw 0;await load();render();$("svm").textContent="저장되었습니다."}catch(e){$("svm").textContent="저장 실패"}};
 function render(){const n=resp.length,rate=course.n>0?Math.round(n/course.n*100)+"%":"-";
- $("meta").innerHTML=`과정명: ${esc(course.title)}<br>연수일자: ${esc(course.date)}<br>강사: ${esc(course.instr||"").replace(/\n/g,"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")}<br>수강 / 응답인원: ${course.n||0}명 / ${n}명 (응답률 ${rate})`;
+ const all0=$("sel").value==="*",cur=$("sel").value===(course.title+"|"+course.date),f=resp[0]||{};
+ const nm=all0?"전체 누적":(f.course||"(과정 미지정)"),dt=all0?[...new Set(allResp.map(r=>r.date).filter(Boolean))].join(", "):(f.date||"");
+ const rate2=cur&&course.n>0?Math.round(n/course.n*100)+"%":"-";
+ $("meta").innerHTML=`과정명: ${esc(nm)}<br>연수일자: ${esc(dt)}`+(cur?`<br>강사: ${esc(course.instr||"").replace(/\n/g,"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")}<br>수강 / 응답인원: ${course.n||0}명 / ${n}명 (응답률 ${rate2})`:`<br>응답인원: ${n}명`);
  const all=[],catAv=[];let rows=`<tr><th class="l">문항</th><th>평균</th><th>분포</th><th>응답</th></tr>`;
  for(const[c,qs]of CATS){const ca=[];rows+=`<tr class="cat"><td class="l" colspan="4">${c}</td></tr>`;
   for(const[id,t]of qs){const v=resp.map(r=>r.sc[id]).filter(Boolean);ca.push(...v);all.push(...v);const d=[5,4,3,2,1].map(k=>v.filter(x=>x===k).length);
@@ -42,6 +50,6 @@ function render(){const n=resp.length,rate=course.n>0?Math.round(n/course.n*100)
  $("cm").innerHTML=cm.length?cm.map(([k,t])=>`<div class="cm"><b>${k}</b> · ${esc(t)}</div>`).join(""):'<span class="mut">등록된 의견이 없습니다.</span>';}
 $("pr").onclick=()=>print();
 $("cs").onclick=()=>{const ids=CATS.flatMap(([,q])=>q.map(x=>x[0])),q=s=>'"'+String(s).replace(/"/g,'""')+'"';
- const csv="\ufeff"+["제출시각",...ids,"건의사항","희망과정"].join(",")+"\n"+resp.map(r=>[r.at,...ids.map(i=>r.sc[i]),q(r.c1),q(r.c2)].join(",")).join("\n");
+ const csv="\ufeff"+["제출시각","과정명","연수일자",...ids,"건의사항","희망과정"].join(",")+"\n"+resp.map(r=>[r.at,q(r.course),q(r.date),...ids.map(i=>r.sc[i]),q(r.c1),q(r.c2)].join(",")).join("\n");
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="만족도조사_응답.csv";a.click()};
 </script></body></html>
