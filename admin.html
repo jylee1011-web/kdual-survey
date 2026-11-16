@@ -14,7 +14,6 @@
 <div class="stats" id="st"></div>
 <div class="card"><h2>문항별 결과 (5점 만점)</h2><div class="scroll"><table id="tb"></table></div>
 <p class="mut">분포: <span style="color:#1b8a5a">■</span>매우만족 <span style="color:#6cc49a">■</span>만족 <span style="color:#e3c24a">■</span>보통 <span style="color:#e8914a">■</span>불만 <span style="color:#d34a4a">■</span>매우불만</p></div>
-<div class="card"><h2>종합 의견 (보고서용)</h2><textarea id="sum" style="min-height:130px"></textarea><p class="mut noprint">자동 작성된 초안입니다. 수정 후 인쇄(PDF 저장)하세요.</p></div>
 <div class="card"><h2>자유 의견</h2><div id="cm"></div></div>
 <div class="row noprint"><button class="btn" id="pr">보고서 인쇄 / PDF 저장</button><button class="btn sec" id="cs">응답 CSV 내려받기</button><button class="btn sec" id="rf">새로고침</button></div>
 </div></main>
@@ -40,10 +39,7 @@ function render(){const n=resp.length,rate=course.n>0?Math.round(n/course.n*100)
  $("tb").innerHTML=rows;
  $("st").innerHTML=`<div class="stat"><div>${n}</div><span>응답 인원</span></div><div class="stat"><div>${fmt(avg(all))}</div><span>전체 평균 (5점)</span></div>`+catAv.map(([c,a])=>`<div class="stat"><div>${fmt(a)}</div><span>${c}</span></div>`).join("");
  const cm=[];resp.forEach(r=>{if(r.c1)cm.push(["건의 사항",r.c1]);if(r.c2)cm.push(["희망 과정",r.c2])});
- $("cm").innerHTML=cm.length?cm.map(([k,t])=>`<div class="cm"><b>${k}</b> · ${esc(t)}</div>`).join(""):'<span class="mut">등록된 의견이 없습니다.</span>';
- if(!$("sum").dataset.e&&n){const s=[...catAv].sort((a,b)=>b[1]-a[1]),b=s[0],l=s[s.length-1];
-  $("sum").value=`본 연수(${course.title}, ${course.date})에는 총 ${n}명이 설문에 응답하였으며, 전체 평균 만족도는 5점 만점에 ${avg(all).toFixed(2)}점입니다. 영역별로는 ${catAv.map(([c,a])=>c+" "+a.toFixed(2)).join(", ")}점이며, ${b[0]} 영역이 가장 높게 나타났습니다. ${b[0]!==l[0]?l[0]+" 영역은 상대적으로 낮아 보완이 필요합니다.":""}\n건의 사항 및 희망 과정은 아래 자유 의견을 참고하여 향후 연수 기획에 반영할 예정입니다.`}}
-$("sum").oninput=()=>$("sum").dataset.e=1;
+ $("cm").innerHTML=cm.length?cm.map(([k,t])=>`<div class="cm"><b>${k}</b> · ${esc(t)}</div>`).join(""):'<span class="mut">등록된 의견이 없습니다.</span>';}
 $("pr").onclick=()=>print();
 $("cs").onclick=()=>{const ids=CATS.flatMap(([,q])=>q.map(x=>x[0])),q=s=>'"'+String(s).replace(/"/g,'""')+'"';
  const csv="\ufeff"+["제출시각",...ids,"건의사항","희망과정"].join(",")+"\n"+resp.map(r=>[r.at,...ids.map(i=>r.sc[i]),q(r.c1),q(r.c2)].join(",")).join("\n");
