@@ -28,4 +28,4 @@ tr.cat td{background:var(--soft);font-weight:700;color:var(--pri)}.scroll{overfl
 .cm{border-left:3px solid var(--pri);padding:6px 12px;margin:8px 0;background:var(--bg);border-radius:6px;white-space:pre-wrap;font-size:14px}
 .hide{display:none!important}.center{text-align:center;padding:40px 10px}.big{font-size:48px}.hp{position:absolute;left:-9999px}
 @media(max-width:520px){.opts span{font-size:11px}.hero h1{font-size:22px}}
-@media print{.noprint{display:none!important}body{background:#fff}}
+@media print{.noprint{display:none!important}body{background:#fff}.stats{grid-template-columns:repeat(5,1fr);gap:8px}.stat{padding:10px}.stat div{font-size:22px}.stat span{font-size:11px}}
