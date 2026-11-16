@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#1758A8">
+<title>직무연수 만족도 조사 · 한국공학대학교</title><link rel="stylesheet" href="style.css"></head><body>
+<header><div class="bar"><div class="brand">한국공학대학교 일학습병행 공동훈련센터 지원단<small>직무연수 만족도 조사</small></div></div></header>
+<main><div class="hero"><small>직무연수 만족도 설문 조사</small><h1 id="hT">불러오는 중…</h1><p id="hD"></p><p id="hI"></p>
+<p style="margin-top:10px">소중한 의견은 더 나은 연수를 만드는 데 사용됩니다. 소요 시간은 약 2분입니다.</p></div>
+<form id="fm" onsubmit="return false"><div id="qs"></div>
+<div class="card"><h2>자유 의견 (선택)</h2>
+<label class="f" for="c1">4-1. 이번 연수 내용 또는 지원단 직무연수 관련 건의 사항</label><textarea id="c1" maxlength="1000"></textarea>
+<label class="f" for="c2">4-2. 향후 개설되었으면 하는 과정 (예시: 엑셀 실무, 8월 중)</label><textarea id="c2" maxlength="1000"></textarea>
+<p class="mut">이름·연락처 등 개인정보는 적지 마세요. 설문은 무기명으로 저장됩니다.</p></div>
+<input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+<div id="er" class="err" role="alert"></div><button id="sb" class="btn" type="button">제출하기</button></form>
+<div id="done" class="card center hide"><div class="big">✅</div><h2>제출이 완료되었습니다</h2><p>설문에 참여해 주셔서 감사합니다.</p></div></main>
+<script src="config.js"></script><script>
+const $=i=>document.getElementById(i);let course={title:"",date:""};
+$("qs").innerHTML=CATS.map(([c,qs])=>`<div class="card"><h2>${c}</h2>`+qs.map(([id,t])=>`<div class="q"><p><span>${id}</span>${t}</p><div class="opts" role="radiogroup" aria-label="${id}">`+[5,4,3,2,1].map(v=>`<label><input type="radio" name="q${id}" value="${v}"><span><b>${v}</b>${LB[v]}</span></label>`).join("")+`</div></div>`).join("")+`</div>`).join("");
+const KEY=()=>"kdual-survey-done:"+course.title+course.date;
+fetch(SURVEY_API+"?action=course").then(r=>r.json()).then(c=>{course=c;$("hT").textContent=c.title;$("hD").textContent="연수일자: "+c.date;$("hI").textContent="강사: "+String(c.instr||"").replace(/\n/g," / ");
+ try{if(localStorage.getItem(KEY())){$("fm").classList.add("hide");$("done").classList.remove("hide");$("done").querySelector("h2").textContent="이미 제출하셨습니다"}}catch(e){}
+}).catch(()=>{$("hT").textContent="과정 정보를 불러오지 못했습니다";$("er").textContent="잠시 후 새로고침해 주세요."});
+$("sb").onclick=async()=>{if($("hp").value)return;const sc={};
+ for(const[,qs]of CATS)for(const[id]of qs){const r=document.querySelector(`input[name="q${id}"]:checked`);if(!r){$("er").textContent=id+" 문항에 응답해 주세요.";return}sc[id]=+r.value}
+ $("sb").disabled=true;$("er").textContent="";
+ try{const r=await fetch(SURVEY_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({sc,c1:$("c1").value.trim(),c2:$("c2").value.trim()})});
+  const j=await r.json();if(!j.ok)throw 0;try{localStorage.setItem(KEY(),"1")}catch(e){}
+  $("fm").classList.add("hide");$("done").classList.remove("hide");scrollTo(0,0)}
+ catch(e){$("er").textContent="제출에 실패했습니다. 잠시 후 다시 시도해 주세요.";$("sb").disabled=false}};
+</script></body></html>
