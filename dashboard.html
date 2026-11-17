@@ -2,7 +2,13 @@
 <meta name="robots" content="noindex,nofollow"><title>관리자 · 만족도 조사 대시보드</title><link rel="stylesheet" href="style.css">
 <style>.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}.ib{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:14px}
 .ib .lb{flex:0 0 46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ib .tr{flex:1;height:12px;background:var(--bd);border-radius:6px}.ib .tr i{display:block;height:100%;border-radius:6px}.ib b{flex:0 0 38px;text-align:right}
-.ins li{margin:6px 0}.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:700;color:#fff}.up{color:#1b8a5a}.dn{color:#d34a4a}svg{width:100%;height:auto}svg text{font-size:11px;fill:#5b6879}.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}.tabs button{background:var(--card);border:1px solid var(--bd);color:var(--mut);font:inherit;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer}.tabs button.on{background:var(--pri);border-color:var(--pri);color:#fff}</style></head><body>
+.ins li{margin:6px 0}.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:700;color:#fff}.up{color:#1b8a5a}.dn{color:#d34a4a}svg{width:100%;height:auto}svg text{font-size:11px;fill:#5b6879}.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}.tabs button{background:var(--card);border:1px solid var(--bd);color:var(--mut);font:inherit;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer}.tabs button.on{background:var(--pri);border-color:var(--pri);color:#fff}main,.bar{max-width:1440px}
+@media(min-width:1000px){#p1{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:stretch}
+#p1 .card{margin:0}#p1 .stats{grid-column:1/-1;margin:0}#p1 .g2{display:contents}#p1>.mut{grid-column:1/-1;margin:0}
+#p1>:nth-child(2){grid-column:span 5}#p1>:nth-child(3){grid-column:span 7}
+#p1 .g2>:first-child{grid-column:span 7}#p1 .g2>:last-child{grid-column:span 5}
+#p1>:nth-child(5){grid-column:span 7}#p1>:nth-child(6){grid-column:span 5}
+#p3 .card{max-width:760px}.ib .lb{flex-basis:52%}}</style></head><body>
 <header class="noprint"><div class="bar"><div class="brand">한국공학대학교 일학습병행 공동훈련센터 지원단<small>만족도 조사 관리자</small></div><a href="index.html">수강생 설문 ↗</a></div></header>
 <main><div id="lg" class="card" style="max-width:420px;margin:40px auto"><h2>관리자 확인</h2><label class="f" for="pw">관리자 키</label><input type="password" id="pw" autocomplete="current-password"><div id="le" class="err"></div><button class="btn" id="go">확인</button></div>
 <div id="app" class="hide">
