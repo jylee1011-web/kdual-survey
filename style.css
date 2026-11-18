@@ -34,3 +34,14 @@ tr.cat td{background:var(--soft);font-weight:700;color:var(--pri)}.scroll{overfl
 @media(max-width:520px){.logo{height:34px}.sub{border:0;padding:0}}
 .q label.ql{display:block;margin:0 0 10px;font-weight:600;font-size:16px}.q label.ql span{color:var(--pri);margin-right:6px}
 .card h2 .note{font-size:13px;font-weight:400;color:var(--mut);margin-left:10px}
+
+/* 수강생 페이지 전용 */
+.student .hero{display:flex;align-items:center;justify-content:space-between;gap:20px}.student .hero-t{flex:1;min-width:0}
+.student .tino{flex:0 0 auto;width:210px;height:auto;background:#fff;border-radius:22px;padding:6px;display:block}
+.student{font-size:18px}.student .logo{height:48px}
+.student .hero h1{font-size:28px}.student .hero p,.student .hero small{font-size:16px}
+.student .card h2{font-size:19px}.student .card h2 .note,.student .mut{font-size:15px}
+.student .opts span{font-size:15px}.student .opts b{font-size:19px}
+.student .q label.ql{font-size:18px}.student .err{font-size:16px}
+@media(max-width:600px){.student .tino{width:96px;border-radius:14px}.student .logo{height:38px}}
+@media(max-width:520px){.student .opts span{font-size:12.5px}.student .hero h1{font-size:23px}.student .hero{gap:12px}}
