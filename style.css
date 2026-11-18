@@ -29,3 +29,8 @@ tr.cat td{background:var(--soft);font-weight:700;color:var(--pri)}.scroll{overfl
 .hide{display:none!important}.center{text-align:center;padding:40px 10px}.big{font-size:48px}.hp{position:absolute;left:-9999px}
 @media(max-width:520px){.opts span{font-size:11px}.hero h1{font-size:22px}}
 @media print{.noprint{display:none!important}body{background:#fff}.stats{grid-template-columns:repeat(5,1fr);gap:8px}.stat{padding:10px}.stat div{font-size:22px}.stat span{font-size:11px}}
+
+.brandw{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.brandw a{display:block}.logo{height:42px;width:auto;display:block}.sub{color:var(--mut);font-size:13px;font-weight:600;border-left:1px solid var(--bd);padding-left:14px}
+@media(max-width:520px){.logo{height:34px}.sub{border:0;padding:0}}
+.q label.ql{display:block;margin:0 0 10px;font-weight:600;font-size:16px}.q label.ql span{color:var(--pri);margin-right:6px}
+.card h2 .note{font-size:13px;font-weight:400;color:var(--mut);margin-left:10px}
