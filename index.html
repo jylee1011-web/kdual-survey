@@ -17,9 +17,16 @@
 <div id="done" class="card center hide"><div class="big">✅</div><h2>제출이 완료되었습니다</h2><p>설문에 참여해 주셔서 감사합니다.</p></div></main>
 <script src="config.js"></script><script>
 const $=i=>document.getElementById(i);let course={title:"",date:""};
+const CN="①②③④⑤⑥⑦⑧⑨⑩";
+function setInstr(v){const L=String(v||"").split(/\n/).map(x=>x.trim().replace(/^([①-⑩]|\(?\d{1,2}[.)])\s*/,"")).filter(Boolean),el=$("hI");
+ if(!L.length){el.textContent="";return}
+ if(L.length===1){el.textContent="강사: "+L[0];return}
+ el.innerHTML='<span class="inst"><span>강사</span><span class="lst">'+L.map((t,i)=>'<span class="it"><span class="no">'+(CN[i]||i+1)+'</span><span>'+esc(t)+'</span></span>').join("")+'</span></span>'}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
 $("qs").innerHTML=CATS.map(([c,qs])=>`<div class="card"><h2>${c}</h2>`+qs.map(([id,t])=>`<div class="q"><p><span>${id}</span>${t}</p><div class="opts" role="radiogroup" aria-label="${id}">`+[5,4,3,2,1].map(v=>`<label><input type="radio" name="q${id}" value="${v}"><span><b>${v}</b>${LB[v]}</span></label>`).join("")+`</div></div>`).join("")+`</div>`).join("");
 const KEY=()=>"kdual-survey-done:"+course.title+course.date;
-fetch(SURVEY_API+"?action=course").then(r=>r.json()).then(c=>{course=c;$("hT").textContent=c.title;$("hD").textContent="연수일자: "+c.date;$("hI").textContent="강사: "+String(c.instr||"").replace(/\n/g," / ");
+fetch(SURVEY_API+"?action=course").then(r=>r.json()).then(c=>{course=c;$("hT").textContent=c.title;$("hD").textContent="연수일자: "+c.date;setInstr(c.instr);
  try{if(localStorage.getItem(KEY())){$("fm").classList.add("hide");$("done").classList.remove("hide");$("done").querySelector("h2").textContent="이미 제출하셨습니다"}}catch(e){}
 }).catch(()=>{$("hT").textContent="과정 정보를 불러오지 못했습니다";$("er").textContent="잠시 후 새로고침해 주세요."});
 $("sb").onclick=async()=>{if($("hp").value)return;const sc={};
