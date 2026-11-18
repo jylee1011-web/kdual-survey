@@ -56,3 +56,11 @@ tr.cat td{background:var(--soft);font-weight:700;color:var(--pri)}.scroll{overfl
 .student .q label.ql{margin-bottom:14px}
 .student .q p{margin-bottom:14px}
 @media(max-width:600px){.student .bar{padding:16px 18px}.student .hero{padding:22px 20px}.student .card{padding:22px 20px 18px}.student .q{padding:16px 0}}
+
+/* 모바일 글자 크기 · 한글 단어 단위 줄바꿈 */
+.student{word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:600px){.student{font-size:16px}
+.student .hero h1{font-size:22px}.student .hero p,.student .hero small{font-size:14px}
+.student .card h2{font-size:17px}.student .card h2 .note,.student .mut{font-size:13px}
+.student .q label.ql{font-size:16px}.student .opts span{font-size:12px}.student .opts b{font-size:17px}
+.student .err{font-size:14px}.student .btn{font-size:16px}.student textarea{font-size:16px}}
