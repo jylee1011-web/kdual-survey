@@ -37,11 +37,22 @@ tr.cat td{background:var(--soft);font-weight:700;color:var(--pri)}.scroll{overfl
 
 /* 수강생 페이지 전용 */
 .student .hero{display:flex;align-items:center;justify-content:space-between;gap:20px}.student .hero-t{flex:1;min-width:0}
-.student .tino{flex:0 0 auto;width:210px;height:auto;background:#fff;border-radius:22px;padding:6px;display:block}
+.student .tino{flex:0 0 auto;width:240px;height:auto;display:block;margin:-6px -4px -6px 0}
 .student{font-size:18px}.student .logo{height:48px}
 .student .hero h1{font-size:28px}.student .hero p,.student .hero small{font-size:16px}
 .student .card h2{font-size:19px}.student .card h2 .note,.student .mut{font-size:15px}
 .student .opts span{font-size:15px}.student .opts b{font-size:19px}
 .student .q label.ql{font-size:18px}.student .err{font-size:16px}
-@media(max-width:600px){.student .tino{width:96px;border-radius:14px}.student .logo{height:38px}}
+@media(max-width:600px){.student .tino{width:110px}.student .logo{height:38px}.student .bar{padding:16px 18px}.student .card{padding:22px 20px}}
 @media(max-width:520px){.student .opts span{font-size:12.5px}.student .hero h1{font-size:23px}.student .hero{gap:12px}}
+
+/* 여백 조정 */
+.student .bar{padding:24px 18px}
+.student .hero{padding:30px 32px}
+.student .card{padding:32px 34px 28px;margin-bottom:20px}
+.student .card h2{margin:0 0 18px}
+.student .q{padding:20px 0}
+.student .q:first-of-type{padding-top:4px}
+.student .q label.ql{margin-bottom:14px}
+.student .q p{margin-bottom:14px}
+@media(max-width:600px){.student .bar{padding:16px 18px}.student .hero{padding:22px 20px}.student .card{padding:22px 20px 18px}.student .q{padding:16px 0}}
