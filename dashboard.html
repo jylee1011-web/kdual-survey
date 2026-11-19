@@ -8,15 +8,25 @@
 #p1>:nth-child(2){grid-column:span 5}#p1>:nth-child(3){grid-column:span 7}
 #p1 .g2>:first-child{grid-column:span 7}#p1 .g2>:last-child{grid-column:span 5}
 #p1>:nth-child(5){grid-column:span 7}#p1>:nth-child(6){grid-column:span 5}
-#p3 .card{max-width:760px}.ib .lb{flex-basis:52%}}#app{display:flex;gap:20px;align-items:flex-start}#app>div:not(.tabs){flex:1;min-width:0}
-.tabs{flex-direction:column;flex:0 0 190px;width:190px;position:sticky;top:16px;margin:0;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;gap:4px}
+#p3 .card{max-width:760px}.ib .lb{flex-basis:52%}}#app{display:flex;gap:20px;align-items:flex-start}#app>div:not(.side){flex:1;min-width:0}
+.side{flex:0 0 224px;width:224px;position:sticky;top:16px}.tabs{flex-direction:column;margin:0 0 12px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;gap:4px}
 .tabs button{width:100%;text-align:left;border:0;background:none}
-@media(max-width:800px){#app{flex-direction:column;gap:0}.tabs{flex-direction:row;flex:none;width:100%;position:static;margin-bottom:16px;overflow-x:auto}.tabs button{width:auto;white-space:nowrap}}
-@media print{#app{display:block}}</style></head><body>
-<header class="noprint"><div class="bar"><div class="brand">한국공학대학교 일학습병행 공동훈련센터 지원단<small>만족도 조사 관리자</small></div><a href="index.html">수강생 설문 ↗</a></div></header>
+@media(max-width:800px){#app{flex-direction:column;gap:0}.side{flex:none;width:100%;position:static;margin-bottom:12px}.tabs{flex-direction:row;overflow-x:auto;margin-bottom:10px}.side-actions{flex-direction:row;flex-wrap:wrap}.side-actions .btn{flex:1 1 auto;text-align:center}.tabs button{width:auto;white-space:nowrap}}
+@media print{#app{display:block}}
+.side-actions{display:flex;flex-direction:column;gap:8px}.side-actions .btn{width:100%;text-align:left;padding:12px 14px;font-size:14px;word-break:keep-all}
+#app[data-t="p3"] .side-actions{display:none}#app:not([data-t="p2"]) #pr,#app:not([data-t="p2"]) #cs{display:none}
+.cnt{font-size:14px;color:var(--mut);font-weight:400;margin-left:6px}
+.p3g{display:flex;gap:16px;align-items:flex-start}#p3 .p3g>.card:first-child{flex:1 1 0;min-width:0;max-width:760px}
+#p3 #lc{flex:0 0 340px;max-width:none;position:sticky;top:16px;max-height:calc(100vh - 40px);overflow-y:auto}
+.ci{display:block;width:100%;text-align:left;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;padding:10px 12px;margin:0 0 8px;font:inherit;color:var(--tx);cursor:pointer}
+.ci:hover{border-color:var(--pri)}.ci.on{border-color:var(--pri);background:var(--soft)}.ci b{display:block;font-size:15px;line-height:1.4}.ci small{color:var(--mut);font-size:12.5px}
+@media(max-width:1000px){.p3g{flex-direction:column}#p3 #lc{flex:none;width:100%;position:static;max-height:320px}}@media(max-width:800px){.side-actions{flex-direction:row;flex-wrap:wrap}.side-actions .btn{flex:1 1 auto;width:auto;text-align:center;padding:10px 8px;font-size:13px}.tabs{flex-wrap:nowrap}.tabs button{padding:10px 12px}}
+</style></head><body>
+<header class="noprint"><div class="bar"><div class="brandw"><img class="logo" src="logo.png" alt="한국공학대학교 일학습병행 공동훈련센터 지원단"><span class="sub">만족도 조사 관리자</span></div><a href="index.html">수강생 설문 ↗</a></div></header>
 <main><div id="lg" class="card" style="max-width:420px;margin:40px auto"><h2>관리자 확인</h2><label class="f" for="pw">관리자 키</label><input type="password" id="pw" autocomplete="current-password"><div id="le" class="err"></div><button class="btn" id="go">확인</button></div>
-<div id="app" class="hide">
-<div class="tabs noprint" role="tablist"><button class="on" data-t="p1">📊&nbsp; 대시보드</button><button data-t="p2">📋&nbsp; 결과·보고서</button><button data-t="p3">⚙️&nbsp; 과정 설정</button></div>
+<div id="app" class="hide" data-t="p1">
+<div class="side noprint"><div class="tabs" role="tablist"><button class="on" data-t="p1">📊&nbsp; 대시보드</button><button data-t="p2">📋&nbsp; 결과보고서</button><button data-t="p3">⚙️&nbsp; 과정 설정</button></div>
+<div class="side-actions"><button class="btn" id="pr" type="button">🖨️ 보고서 인쇄 / PDF 저장</button><button class="btn sec" id="cs" type="button">⬇️ 응답 CSV 내려받기</button><button class="btn sec" id="rf" type="button">🔄 새로고침</button></div></div>
 <div id="p1"><div class="stats" id="kp"></div>
 <div class="card"><h2>핵심 요약</h2><ul class="ins" id="ins" style="margin:0;padding-left:20px"></ul></div>
 <div class="card"><h2>과정별 만족도 추이</h2><div id="tr"></div></div>
@@ -24,35 +34,45 @@
 <div class="card"><h2>영역별 평균</h2><div id="ct"></div><h2 style="margin-top:20px">향후 개설 희망 과정</h2><div id="wh"></div></div></div>
 <div class="card"><h2>과정별 비교</h2><div class="scroll"><table id="tb2"></table></div></div>
 <div class="card"><h2>최근 건의 사항</h2><div id="sg"></div></div>
-<p class="mut noprint"><button class="btn sec" id="rf2">새로고침</button></p>
+<button id="rf2" class="hide" type="button" aria-hidden="true"></button>
 </div>
 <div id="p2" class="hide"><div class="card noprint"><h2>보기 선택</h2><select id="sel" style="width:100%;font:inherit;padding:10px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)" aria-label="과정 선택"></select></div>
 <div class="card"><h2>직무연수 만족도 설문 조사 결과</h2><div id="meta" class="mut" style="line-height:1.8"></div></div>
 <div class="stats" id="st"></div>
 <div class="card"><h2>문항별 결과 (5점 만점)</h2><div class="scroll"><table id="tb"></table></div>
 <p class="mut">분포: <span style="color:#1b8a5a">■</span>매우만족 <span style="color:#6cc49a">■</span>만족 <span style="color:#e3c24a">■</span>보통 <span style="color:#e8914a">■</span>불만 <span style="color:#d34a4a">■</span>매우불만</p></div>
-<div class="card"><h2>자유 의견</h2><div id="cm"></div></div>
-<div class="row noprint"><button class="btn" id="pr">보고서 인쇄 / PDF 저장</button><button class="btn sec" id="cs">응답 CSV 내려받기</button><button class="btn sec" id="rf">새로고침</button></div></div>
-<div id="p3" class="hide"><div class="card noprint"><h2>과정 정보 설정</h2>
-<label class="f" for="iT">과정명</label><input type="text" id="iT"><div class="row"><div style="flex:1;min-width:150px"><label class="f" for="iD">연수일자</label><input type="text" id="iD"></div>
+<div class="card"><h2>건의 사항 <span class="cnt" id="n1"></span></h2><div id="cm1"></div></div>
+<div class="card"><h2>희망 과정 <span class="cnt" id="n2"></span></h2><div id="cm2"></div></div>
+</div>
+<div id="p3" class="hide"><div class="p3g"><div class="card noprint"><h2>과정 정보 설정</h2>
+<label class="f" for="iSel">과정명</label><select id="iSel" style="width:100%;font:inherit;padding:10px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)"></select><input type="text" id="iT" class="hide" style="margin-top:8px" placeholder="새 과정명을 입력하세요" aria-label="새 과정명"><div class="row"><div style="flex:1;min-width:150px"><label class="f" for="iD">연수일자 <span class="mut">(직접 입력하거나 달력에서 선택)</span></label><div class="row" style="flex-wrap:nowrap"><input type="text" id="iD" placeholder="예: 2026.11.20.(금)"><input type="date" id="iDp" aria-label="달력에서 날짜 선택" style="width:auto;flex:0 0 auto;font:inherit;padding:9px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)"></div></div>
 <div style="flex:1;min-width:150px"><label class="f" for="iN">수강 인원(명)</label><input type="text" id="iN" inputmode="numeric"></div></div>
 <label class="f" for="iI">강사 (줄바꿈으로 구분)</label><textarea id="iI" style="min-height:60px"></textarea>
 <p><button class="btn sec" id="sv">저장</button> <span id="svm" class="mut"></span></p></div>
+<div class="card noprint" id="lc"><h2>과정 목록</h2><p class="mut" style="margin-top:-6px">과정명을 누르면 왼쪽 입력란에 불러옵니다.</p><div id="clist"></div></div></div>
 </div>
 </div></main>
 <script src="config.js"></script>
 <script>(function(){
 const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const COL=["#1b8a5a","#6cc49a","#e3c24a","#e8914a","#d34a4a"];let KEY="",course={},resp=[],allResp=[];const rk=r=>(r.course||"(과정 미지정)")+"|"+(r.date||"");
+const COL=["#1b8a5a","#6cc49a","#e3c24a","#e8914a","#d34a4a"];let KEY="",course={},resp=[],allResp=[],CAT=[];const rk=r=>(r.course||"(과정 미지정)")+"|"+(r.date||"");
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0,fmt=x=>resp.length?x.toFixed(2):"-";
-async function load(){const r=await fetch(SURVEY_API+"?action=results&key="+encodeURIComponent(KEY));const j=await r.json();if(!j.ok)throw 0;course=j.course;allResp=j.responses;buildSel();return j}
+async function load(){const r=await fetch(SURVEY_API+"?action=results&key="+encodeURIComponent(KEY));const j=await r.json();if(!j.ok)throw 0;course=j.course;allResp=j.responses;CAT=j.catalog||[];buildSel();buildCourseSel();return j}
 function buildSel(){const sel=$("sel"),cur=sel.value||"*",m=new Map();allResp.forEach(r=>{const k=rk(r);if(!m.has(k))m.set(k,{n:0,r})  ;m.get(k).n++});
  sel.innerHTML=`<option value="*">전체 누적 (${m.size}개 과정, ${allResp.length}명)</option>`+[...m].map(([k,v])=>`<option value="${esc(k)}">${esc(v.r.course||"(과정 미지정)")} · ${esc(v.r.date||"")} (${v.n}명)</option>`).join("");
  sel.value=[...sel.options].some(o=>o.value===cur)?cur:"*";resp=sel.value==="*"?allResp:allResp.filter(r=>rk(r)===sel.value)}
 $("sel").onchange=()=>{buildSel();render()};
 $("rf").onclick=async()=>{try{await load();render()}catch(e){alert("불러오기 실패")}};
-function fill(){$("iT").value=course.title||"";$("iD").value=course.date||"";$("iI").value=course.instr||"";$("iN").value=course.n||""}
-$("sv").onclick=async()=>{try{const r=await fetch(SURVEY_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"course",key:KEY,title:$("iT").value.trim(),date:$("iD").value.trim(),instr:$("iI").value.trim(),n:parseInt($("iN").value)||0})});
+let NAMES=[];function buildCourseSel(){const names=[...new Set([...CAT.map(c=>c.title),...allResp.map(r=>r.course),course.title].filter(Boolean))],s=$("iSel");
+ s.innerHTML='<option value="">— 과정 선택 —</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("")+'<option value="__new">+ 새 과정명 직접 입력</option>';NAMES=names;renderList()}
+function renderList(){const L=$("clist");if(!L)return;const cur=$("iSel").value;
+ L.innerHTML=NAMES.length?NAMES.map((n,i)=>{const rs=allResp.filter(r=>r.course===n),ds=[...new Set(rs.map(r=>r.date).filter(Boolean))].sort();return `<button type="button" class="ci${n===cur?" on":""}" data-i="${i}"><b>${esc(n)}</b><small>응답 ${rs.length}명${ds.length?" · "+esc(ds[ds.length-1]):""}</small></button>`}).join(""):'<span class="mut">저장된 과정이 없습니다.</span>'}
+$("clist").onclick=e=>{const b=e.target.closest(".ci");if(!b)return;$("iSel").value=NAMES[+b.dataset.i];$("iSel").onchange()};
+function setSel(t){const s=$("iSel"),ok=t&&[...s.options].some(o=>o.value===t);s.value=ok?t:(t?"__new":"");$("iT").classList.toggle("hide",s.value!=="__new");$("iT").value=t||"";renderList()}
+$("iSel").onchange=()=>{const v=$("iSel").value;if(v==="__new"){$("iT").classList.remove("hide");$("iT").value="";$("iT").focus()}else{$("iT").classList.add("hide");$("iT").value=v;const c=CAT.find(x=>x.title===v);if(c&&c.instr)$("iI").value=c.instr}renderList()};
+$("iDp").onchange=()=>{const v=$("iDp").value;if(!v)return;const d=new Date(v+"T00:00:00");$("iD").value=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}.(${"일월화수목금토"[d.getDay()]})`};
+function fill(){setSel(course.title||"");$("iD").value=course.date||"";$("iI").value=course.instr||"";$("iN").value=course.n||""}
+$("sv").onclick=async()=>{if(!$("iT").value.trim()){$("svm").textContent="과정명을 선택하거나 입력하세요.";return}try{const r=await fetch(SURVEY_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"course",key:KEY,title:$("iT").value.trim(),date:$("iD").value.trim(),instr:$("iI").value.trim(),n:parseInt($("iN").value)||0})});
  if(!(await r.json()).ok)throw 0;await load();render();$("svm").textContent="저장되었습니다."}catch(e){$("svm").textContent="저장 실패"}};
 function render(){const n=resp.length,rate=course.n>0?Math.round(n/course.n*100)+"%":"-";
  const all0=$("sel").value==="*",cur=$("sel").value===(course.title+"|"+course.date),f=resp[0]||{};
@@ -66,8 +86,8 @@ function render(){const n=resp.length,rate=course.n>0?Math.round(n/course.n*100)
   rows+=`<tr><td class="l"><b>${c} 만족도</b></td><td><b>${fmt(avg(ca))}</b></td><td></td><td></td></tr>`;catAv.push([c,avg(ca)])}
  $("tb").innerHTML=rows;
  $("st").innerHTML=`<div class="stat"><div>${n}</div><span>응답 인원</span></div><div class="stat"><div>${fmt(avg(all))}</div><span>전체 평균 (5점)</span></div>`+catAv.map(([c,a])=>`<div class="stat"><div>${fmt(a)}</div><span>${c}</span></div>`).join("");
- const cm=[];resp.forEach(r=>{if(r.c1)cm.push(["건의 사항",r.c1]);if(r.c2)cm.push(["희망 과정",r.c2])});
- $("cm").innerHTML=cm.length?cm.map(([k,t])=>`<div class="cm"><b>${k}</b> · ${esc(t)}</div>`).join(""):'<span class="mut">등록된 의견이 없습니다.</span>';}
+ const c1=resp.map(r=>r.c1).filter(Boolean),c2=resp.map(r=>r.c2).filter(Boolean),box=a=>a.length?a.map(t=>`<div class="cm">${esc(t)}</div>`).join(""):'<span class="mut">등록된 의견이 없습니다.</span>';
+ $("cm1").innerHTML=box(c1);$("cm2").innerHTML=box(c2);$("n1").textContent=`(${c1.length}건)`;$("n2").textContent=`(${c2.length}건)`;}
 $("pr").onclick=()=>print();
 $("cs").onclick=()=>{const ids=CATS.flatMap(([,q])=>q.map(x=>x[0])),q=s=>'"'+String(s).replace(/"/g,'""')+'"';
  const csv="\ufeff"+["제출시각","과정명","연수일자",...ids,"건의사항","희망과정"].join(",")+"\n"+resp.map(r=>[r.at,q(r.course),q(r.date),...ids.map(i=>r.sc[i]),q(r.c1),q(r.c2)].join(",")).join("\n");
@@ -123,6 +143,7 @@ window.DashStart=async k=>{KEY=k;await run()};
 <script>(function(){const $=i=>document.getElementById(i);
 async function go(k){$("le").textContent="";try{await Promise.all([AdminStart(k),DashStart(k)]);$("lg").classList.add("hide");$("app").classList.remove("hide");try{sessionStorage.setItem("k",k)}catch(e){}}catch(e){$("le").textContent="키가 올바르지 않거나 서버에 연결할 수 없습니다."}}
 $("go").onclick=()=>go($("pw").value);$("pw").onkeydown=e=>{if(e.key==="Enter")go($("pw").value)};
-document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));["p1","p2","p3"].forEach(p=>$(p).classList.toggle("hide",p!==b.dataset.t))});
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));$("app").dataset.t=b.dataset.t;["p1","p2","p3"].forEach(p=>$(p).classList.toggle("hide",p!==b.dataset.t))});
+$("rf").addEventListener("click",()=>$("rf2").click());
 try{const k=sessionStorage.getItem("k");if(k){$("pw").value=k;go(k)}}catch(e){}
 })();</script></body></html>
