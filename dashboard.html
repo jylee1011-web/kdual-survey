@@ -3,12 +3,12 @@
 <style>.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}.ib{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:14px}
 .ib .lb{flex:0 0 46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ib .tr{flex:1;height:12px;background:var(--bd);border-radius:6px}.ib .tr i{display:block;height:100%;border-radius:6px}.ib b{flex:0 0 38px;text-align:right}
 .ins li{margin:6px 0}.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:700;color:#fff}.up{color:#1b8a5a}.dn{color:#d34a4a}svg{width:100%;height:auto}svg text{font-size:11px;fill:#5b6879}.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}.tabs button{background:var(--card);border:1px solid var(--bd);color:var(--mut);font:inherit;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer}.tabs button.on{background:var(--pri);border-color:var(--pri);color:#fff}main,.bar{max-width:1440px}
-@media(min-width:1280px){#p1{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:stretch}
-#p1 .card{margin:0}#p1 .stats{grid-column:1/-1;margin:0}#p1 .g2{display:contents}#p1>.mut{grid-column:1/-1;margin:0}
-#p1>:nth-child(2){grid-column:span 5}#p1>:nth-child(3){grid-column:span 7}
-#p1 .g2>:first-child{grid-column:span 7}#p1 .g2>:last-child{grid-column:span 5}
-#p1>:nth-child(5){grid-column:span 7}#p1>:nth-child(6){grid-column:span 5}
-#p3 .card{max-width:760px}.ib .lb{flex-basis:52%}}#app{display:flex;gap:20px;align-items:flex-start}#app>div:not(.side){flex:1;min-width:0}
+@media(min-width:1280px){.ib .lb{flex-basis:52%}}
+.p1g{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}.p1g .card{margin:0;min-width:0}
+@media(min-width:1180px){.p1g{grid-template-columns:repeat(12,minmax(0,1fr))}.p1g>:nth-child(odd){grid-column:span 8}.p1g>:nth-child(even){grid-column:span 4}}
+#tb2 th,#tb2 td{white-space:nowrap}#tb2 th.l,#tb2 td.l{width:100%;max-width:0;overflow:hidden;text-overflow:ellipsis}
+#sc{max-height:380px;overflow-y:auto;padding-right:4px}.sc{padding:12px 0;border-top:1px solid var(--bd)}.sc:first-child{border-top:0;padding-top:0}
+.sct{display:flex;flex-direction:column;margin-bottom:6px}.scn{font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sct .mut{font-size:12.5px}#app{display:flex;gap:20px;align-items:flex-start}#app>div:not(.side){flex:1;min-width:0}
 .side{flex:0 0 224px;width:224px;position:sticky;top:16px}.tabs{flex-direction:column;margin:0 0 12px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;gap:4px}
 .tabs button{width:100%;text-align:left;border:0;background:none}
 @media(max-width:800px){#app{flex-direction:column;gap:0}.side{flex:none;width:100%;position:static;margin-bottom:12px}.tabs{flex-direction:row;overflow-x:auto;margin-bottom:10px}.side-actions{flex-direction:row;flex-wrap:wrap}.side-actions .btn{flex:1 1 auto;text-align:center}.tabs button{width:auto;white-space:nowrap}}
@@ -16,7 +16,7 @@
 .side-actions{display:flex;flex-direction:column;gap:8px}.side-actions .btn{width:100%;text-align:left;padding:12px 14px;font-size:14px;word-break:keep-all}
 #app[data-t="p3"] .side-actions{display:none}#app:not([data-t="p2"]) #pr,#app:not([data-t="p2"]) #cs{display:none}
 .cnt{font-size:14px;color:var(--mut);font-weight:400;margin-left:6px}
-.p3g{display:flex;gap:16px;align-items:flex-start}#p3 .p3g>.card:first-child{flex:1 1 0;min-width:0;max-width:760px}
+.p3g{display:flex;gap:16px;align-items:flex-start}#p3 .p3g>.card:first-child{flex:1 1 0;min-width:0}
 #p3 #lc{flex:0 0 340px;max-width:none;position:sticky;top:16px;max-height:calc(100vh - 40px);overflow-y:auto}
 .ci{display:block;width:100%;text-align:left;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;padding:10px 12px;margin:0 0 8px;font:inherit;color:var(--tx);cursor:pointer}
 .ci:hover{border-color:var(--pri)}.ci.on{border-color:var(--pri);background:var(--soft)}.ci b{display:block;font-size:15px;line-height:1.4}.ci small{color:var(--mut);font-size:12.5px}
@@ -27,13 +27,17 @@
 <div id="app" class="hide" data-t="p1">
 <div class="side noprint"><div class="tabs" role="tablist"><button class="on" data-t="p1">📊&nbsp; 대시보드</button><button data-t="p2">📋&nbsp; 결과보고서</button><button data-t="p3">⚙️&nbsp; 과정 설정</button></div>
 <div class="side-actions"><button class="btn" id="pr" type="button">🖨️ 보고서 인쇄 / PDF 저장</button><button class="btn sec" id="cs" type="button">⬇️ 응답 CSV 내려받기</button><button class="btn sec" id="rf" type="button">🔄 새로고침</button></div></div>
-<div id="p1"><div class="stats" id="kp"></div>
-<div class="card"><h2>핵심 요약</h2><ul class="ins" id="ins" style="margin:0;padding-left:20px"></ul></div>
+<div id="p1"><div class="p1g">
 <div class="card"><h2>과정별 만족도 추이</h2><div id="tr"></div></div>
-<div class="g2"><div class="card"><h2>문항별 평균 (낮은 순)</h2><div id="it"></div><p class="mut">■ 4.5 이상 우수 · ■ 4.0~4.49 양호 · ■ 4.0 미만 개선 필요</p></div>
-<div class="card"><h2>영역별 평균</h2><div id="ct"></div><h2 style="margin-top:20px">향후 개설 희망 과정</h2><div id="wh"></div></div></div>
+<div class="card"><h2>과정별 만족도 점수</h2><div id="sc"></div><p class="mut" style="margin:12px 0 0;word-break:keep-all"><span style="color:#1b8a5a">■</span> 4.5 이상 우수 · <span style="color:#e3c24a">■</span> 4.0~4.49 양호 · <span style="color:#d34a4a">■</span> 4.0 미만 개선 필요</p></div>
 <div class="card"><h2>과정별 비교</h2><div class="scroll"><table id="tb2"></table></div></div>
 <div class="card"><h2>최근 건의 사항</h2><div id="sg"></div></div>
+</div>
+<div id="p1x" class="hide"><div class="stats" id="kp"></div>
+<div class="card"><h2>핵심 요약</h2><ul class="ins" id="ins" style="margin:0;padding-left:20px"></ul></div>
+<div class="g2"><div class="card"><h2>문항별 평균 (낮은 순)</h2><div id="it"></div><p class="mut">■ 4.5 이상 우수 · ■ 4.0~4.49 양호 · ■ 4.0 미만 개선 필요</p></div>
+<div class="card"><h2>영역별 평균</h2><div id="ct"></div><h2 style="margin-top:20px">향후 개설 희망 과정</h2><div id="wh"></div></div></div>
+</div>
 <button id="rf2" class="hide" type="button" aria-hidden="true"></button>
 </div>
 <div id="p2" class="hide"><div class="card noprint"><h2>보기 선택</h2><select id="sel" style="width:100%;font:inherit;padding:10px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)" aria-label="과정 선택"></select></div>
@@ -66,7 +70,7 @@ $("rf").onclick=async()=>{try{await load();render()}catch(e){alert("불러오기
 let NAMES=[];function buildCourseSel(){const names=[...new Set([...CAT.map(c=>c.title),...allResp.map(r=>r.course),course.title].filter(Boolean))],s=$("iSel");
  s.innerHTML='<option value="">— 과정 선택 —</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("")+'<option value="__new">+ 새 과정명 직접 입력</option>';NAMES=names;renderList()}
 function renderList(){const L=$("clist");if(!L)return;const cur=$("iSel").value;
- L.innerHTML=NAMES.length?NAMES.map((n,i)=>{const rs=allResp.filter(r=>r.course===n),ds=[...new Set(rs.map(r=>r.date).filter(Boolean))].sort();return `<button type="button" class="ci${n===cur?" on":""}" data-i="${i}"><b>${esc(n)}</b><small>응답 ${rs.length}명${ds.length?" · "+esc(ds[ds.length-1]):""}</small></button>`}).join(""):'<span class="mut">저장된 과정이 없습니다.</span>'}
+ L.innerHTML=NAMES.length?NAMES.map((n,i)=>`<button type="button" class="ci${n===cur?" on":""}" data-i="${i}"><b>${esc(n)}</b></button>`).join(""):'<span class="mut">저장된 과정이 없습니다.</span>'}
 $("clist").onclick=e=>{const b=e.target.closest(".ci");if(!b)return;$("iSel").value=NAMES[+b.dataset.i];$("iSel").onchange()};
 function setSel(t){const s=$("iSel"),ok=t&&[...s.options].some(o=>o.value===t);s.value=ok?t:(t?"__new":"");$("iT").classList.toggle("hide",s.value!=="__new");$("iT").value=t||"";renderList()}
 $("iSel").onchange=()=>{const v=$("iSel").value;if(v==="__new"){$("iT").classList.remove("hide");$("iT").value="";$("iT").focus()}else{$("iT").classList.add("hide");$("iT").value=v;const c=CAT.find(x=>x.title===v);if(c&&c.instr)$("iI").value=c.instr}renderList()};
@@ -125,7 +129,9 @@ function render(all,G){
  if(wl.length)ins.push(`가장 많이 요청된 과정: <b>${esc(wl[0][0])}</b> (${wl[0][1]}건)`);
  $("ins").innerHTML=ins.map(s=>`<li>${s}</li>`).join("")||"<li>응답이 없습니다.</li>";
  chart(G);
- $("tb2").innerHTML=`<tr><th class="l">과정</th><th>일자</th><th>응답</th><th>전체</th>${CATS.map(([c])=>`<th>${c}</th>`).join("")}</tr>`+[...G].reverse().map(g=>`<tr><td class="l">${esc(g.t)}</td><td>${esc(g.d)}</td><td>${g.rs.length}</td><td><b>${f2(oA(g.rs))}</b></td>${CATS.map(([,q])=>`<td>${f2(cA(g.rs,q.map(x=>x[0])))}</td>`).join("")}</tr>`).join("");
+ $("tb2").innerHTML=`<tr><th class="l">과정</th><th>일자</th><th>응답</th><th>전체</th>${CATS.map(([c])=>`<th>${c}</th>`).join("")}</tr>`+[...G].reverse().map(g=>`<tr><td class="l" title="${esc(g.t)}">${esc(g.t)}</td><td>${esc(g.d)}</td><td>${g.rs.length}</td><td><b>${f2(oA(g.rs))}</b></td>${CATS.map(([,q])=>`<td>${f2(cA(g.rs,q.map(x=>x[0])))}</td>`).join("")}</tr>`).join("");
+ const scH=[...G].reverse().map(g=>{const o=oA(g.rs),cv=CATS.map(([c,q])=>[c,cA(g.rs,q.map(x=>x[0]))]);return `<div class="sc"><div class="sct" title="${esc(g.t)}"><span class="scn">${esc(g.t)}</span><span class="mut">${esc(g.d)} · ${g.rs.length}명</span></div><div class="ib"><span class="tr"><i style="width:${(o||0)/5*100}%;background:${col(o)}"></i></span><b>${f2(o)}</b></div><div class="mut" style="font-size:12.5px">${cv.map(([c,v])=>`${c} <b>${f2(v)}</b>`).join(" · ")}</div></div>`}).join("");
+ $("sc").innerHTML=scH||'<span class="mut">데이터가 없습니다.</span>';
  const sg=[...all].reverse().filter(r=>r.c1).slice(0,10);
  $("sg").innerHTML=sg.length?sg.map(r=>`<div class="cm">${esc(r.c1)}<div class="mut">${esc(r.course||"")} · ${esc(r.date||"")}</div></div>`).join(""):'<span class="mut">등록된 건의 사항이 없습니다.</span>'}
 function chart(G){const el=$("tr");if(G.length<2){el.innerHTML='<span class="mut">과정이 2개 이상 쌓이면 추이 그래프가 표시됩니다.</span>';return}
@@ -133,7 +139,7 @@ function chart(G){const el=$("tr");if(G.length<2){el.innerHTML='<span class="mut
  const v=S.flatMap(s=>s[2]).filter(x=>!isNaN(x)),lo=Math.max(1,Math.floor(Math.min(...v)-0.5)),hi=5,X=i=>L+(W-L-R)*(G.length<2?.5:i/(G.length-1)),Y=y=>T+(H-T-B)*(1-(y-lo)/(hi-lo));
  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="과정별 만족도 추이">`;
  for(let y=lo;y<=hi;y+=.5)s+=`<line x1="${L}" x2="${W-R}" y1="${Y(y)}" y2="${Y(y)}" stroke="#dbe3ee"/><text x="${L-6}" y="${Y(y)+4}" text-anchor="end">${y.toFixed(1)}</text>`;
- G.forEach((g,i)=>{const t=(g.d||g.t).replace(/\.\(.\)/,"").slice(0,12);s+=`<text x="${X(i)}" y="${H-24}" text-anchor="middle">${esc(t)}</text>`});
+ G.forEach((g,i)=>{const t=(g.d||g.t).replace(/\.\(.\)/,"").slice(0,12);s+=`<text x="${X(i)}" y="${H-24}" text-anchor="${i===0?"start":i===G.length-1?"end":"middle"}">${esc(t)}</text>`});
  S.forEach(([n,c,d,w],k)=>{const p=d.map((y,i)=>isNaN(y)?null:[X(i),Y(y),y]).filter(Boolean);s+=`<polyline fill="none" style="stroke:${c}" stroke-width="${w}" points="${p.map(q=>q[0]+","+q[1]).join(" ")}"/>`;p.forEach(q=>{s+=`<circle cx="${q[0]}" cy="${q[1]}" r="${k?3:4.5}" style="fill:${c}"/>`;if(!k)s+=`<text x="${q[0]}" y="${q[1]-9}" text-anchor="middle" style="fill:${c};font-weight:700">${q[2].toFixed(2)}</text>`})});
  S.forEach(([n,c],i)=>{s+=`<rect x="${L+i*100}" y="${H-12}" width="10" height="10" rx="2" style="fill:${c}"/><text x="${L+i*100+14}" y="${H-3}">${n}</text>`});
  el.innerHTML=s+"</svg>"}
